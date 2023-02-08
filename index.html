@@ -11,13 +11,8 @@
   <title>Gasolineras</title>
 </head>
 
-<body onload="initMap()">
-  <h1>obtener lugares cercanos</h1>
-  <div id="mapa" style="width: 450px; height: 350px; margin-top: 20%;"> </div>
-  <div id="container">
-
-  </div>
-
+<body onload="initMap()"> 
+  <header>
   <div class="menu-btn">
     <i class="fas fa-bars"></i>
   </div>
@@ -34,13 +29,23 @@
       <a href="#about">About</a>
     </div>
   </div>
-
-
-  </head>
-
-
-
-
+  </header>
+<div id="content">
+  <aside id="menu">
+    <h3>Filtrar el contenido por :</h3><br>
+    <select id="ordenarX">
+      <option value="">Tipo de Carburante</option>
+      <option value="">Distancia</option>
+      <option value="">Precio</option>
+      <option value="">Otro</option>
+    </select>
+  </aside>
+  <div id="contenedorMapa">
+    <div id="mapa" style="width: 450px; height: 350px; margin-top: 20%;">Obtener lugares cercanos</div>
+    <div id="container">
+    </div>
+  </div>
+</div>
 </body>
 <div class="footer-links">
   <div class="footer-container">

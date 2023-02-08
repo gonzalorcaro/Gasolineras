@@ -1,23 +1,5 @@
 //Constante que almacena la url para el buscador 
-const urlBuscador = " https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/Listados/MunicipiosPorProvincia/";
-
-
-//Colocar el buscador en el index y asignar los datos (cuando se extraigan de la api)
- function obtenerMunicipioXProvincia(){
-   
-  let section = document.getElementById("container");
-
- fetch(urlBuscador)
-          .then((response) =>  response.json())
-          .then((data) => {
-        
-        console.log(data);
-
-        });     
-  };
-
-
-
+const urlBuscador = " https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestresHist/FiltroMunicipioProducto/{FECHA}/{IDMUNICIPIO}/{IDPRODUCTO}";
 
 function obtenerLocalizacionActual() {
   let latitude;

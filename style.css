@@ -127,3 +127,17 @@ body {
 }
 
 /**Fin de estilos footer**/
+
+/**Estilo Menu/Aside**/
+#menu {
+  margin-top: 10%;
+  height: 100%;
+  width: 20%;
+}
+
+#content {
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+}
