@@ -1,5 +1,32 @@
 let idMunicipio;
 
+
+// funcion que obtiene la ip publica del cliente
+async function obtenerIP() {
+  let response = await fetch('https://api.ipify.org?format=json');
+  let datos = await response.json();
+  return datos.ip;
+}
+
+async function usarIP() {
+  let ip = await obtenerIP();
+  
+  corrdenadasDesdeIP(ip);
+
+}
+
+usarIP();
+
+// obtener coordenadas desde ip
+async function corrdenadasDesdeIP(ip) {
+  let response = await fetch(`https://ipapi.co/${ip}/json/`);
+  let datos = await response.json();
+  let latitud = datos.latitude;
+  let longitud = datos.longitude;
+  
+  getCityName(latitud, longitud);
+}
+
 // funcion que devuelve el nombre de la ciudad donde se encuentra el usuario
 function obtenerLocalizacionActual() {
   let latitude;
@@ -11,22 +38,21 @@ function obtenerLocalizacionActual() {
       longitude = position.coords.longitude;
 
       let ciudad = getCityName(latitude, longitude);
-
     });
   } else {
     console.error("La geolocalizacion no está disponible en su navegador");
-  }
+  } 
+}
 
-  // funcion para obtener el nombre de la ciudad más cercana a través de las coordenadas
-  function getCityName(lat, lng) {
-    const API_URL = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
+// funcion para obtener el nombre de la ciudad más cercana a través de las coordenadas
+function getCityName(lat, lng) {
+  const API_URL = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
 
-    fetch(API_URL)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.address.town || data.address.city);
-      });
-  }
+  fetch(API_URL)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.address.town || data.address.city);
+    });
 }
 
 async function ObtenerGasolineras() {
@@ -34,8 +60,6 @@ async function ObtenerGasolineras() {
   let idMunicipio = await obtenerIdMunicipio(nombre);
   console.log(idMunicipio);
 }
-
-ejemplo();
 
 async function obtenerIdMunicipio(nombreMunicipio) {
   let response;
@@ -85,12 +109,12 @@ idMunicipio = obtenerIdMunicipio("Mérida");
 
 console.log("id: " + idMunicipio);
 
-
-
 obtenerLocalizacionActual();
 
 // Cuando el usuario se desplaza hacia abajo 80 px desde la parte superior del documento, cambie el tamaño del relleno de la barra de navegación y el tamaño de fuente del logotipo
-window.onscroll = function () { scrollFunction() };
+window.onscroll = function () {
+  scrollFunction();
+};
 
 function scrollFunction() {
   if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
@@ -101,4 +125,3 @@ function scrollFunction() {
     document.getElementById("logo").style.fontSize = "35px";
   }
 }
-
