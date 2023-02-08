@@ -11,6 +11,7 @@ function obtenerLocalizacionActual() {
       longitude = position.coords.longitude;
 
       let ciudad = getCityName(latitude, longitude);
+
     });
   } else {
     console.error("La geolocalizacion no está disponible en su navegador");
@@ -83,3 +84,21 @@ function noHayResultados() {
 idMunicipio = obtenerIdMunicipio("Mérida");
 
 console.log("id: " + idMunicipio);
+
+
+
+obtenerLocalizacionActual();
+
+// Cuando el usuario se desplaza hacia abajo 80 px desde la parte superior del documento, cambie el tamaño del relleno de la barra de navegación y el tamaño de fuente del logotipo
+window.onscroll = function () { scrollFunction() };
+
+function scrollFunction() {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    document.getElementById("navbar").style.padding = "30px 10px";
+    document.getElementById("logo").style.fontSize = "25px";
+  } else {
+    document.getElementById("navbar").style.padding = "80px 10px";
+    document.getElementById("logo").style.fontSize = "35px";
+  }
+}
+
