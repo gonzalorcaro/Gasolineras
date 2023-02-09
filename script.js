@@ -1,19 +1,6 @@
 
 
 //API KEY googlemaps: AIzaSyBWZJ5Yig-1yOrgN4XtEuIzGtuWhIr4Bgs
-// funcion que devuelve el nombre de la ciudad donde se encuentra el usuario
-
-//Constante que almacena la url para el buscador 
-const urlBuscador = " https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestresHist/FiltroMunicipioProducto/{FECHA}/{IDMUNICIPIO}/{IDPRODUCTO}";
-
-function obtenerLocalizacionActual() {
-  let latitude;
-  let longitude;
-}
-
-
-
-
 
 let idMunicipio;
 
@@ -28,7 +15,8 @@ async function gasolinerasInicio() {
     coordenadas.longitud
   );
   let idMunicipio = await obtenerIdMunicipio(ciudad);
-  gasolinerasDeCiudad(idMunicipio);
+  let idProducto = 1;
+  gasolineasPorProductoYMunicipio(idProducto, idMunicipio);
 }
 
 // funcion que obtiene la ip publica del cliente
@@ -78,23 +66,6 @@ async function obtenerIdMunicipio(nombreMunicipio) {
   }
 }
 
-// obtener gasolineras por ciudad
-async function gasolinerasDeCiudad(idMunicipio) {
-  let response = await fetch(
-    `https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroMunicipio/${idMunicipio}`
-  );
-
-  let datos = await response.json();
-
-  if (datos.ListaEESSPrecio.length != 0) {
-    datos.ListaEESSPrecio.forEach((gasolinera) => {
-      mostrarGasolinera(gasolinera);
-    });
-  } else {
-    noResultsFilters();
-  }
-}
-
 // funcion que devuelve el nombre de la ciudad donde se encuentra el usuario
 function obtenerLocalizacionActual() {
   let latitude;
@@ -119,9 +90,9 @@ async function gasolineasPorProductoYMunicipio(idProducto, idMunicipio) {
   response = await fetch(API_URL);
 
   let datosGasolineras = await response.json();
-
-  if (datosGasolineras.length != 0) {
-    datosGasolineras.forEach((gasolinera) => {
+console.log(datosGasolineras);
+  if (datosGasolineras.ListaEESSPrecio.length != 0) {
+    datosGasolineras.ListaEESSPrecio.forEach((gasolinera) => {
       mostrarGasolinera(gasolinera);
     });
   } else {
