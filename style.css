@@ -78,9 +78,13 @@ body {
 /**Fin estilos navbar**/
 
 /**Estilos map**/
-.map {
-  width: 450px;
-  height: 350px;
+#mapa {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  position: absolute;
+  left: 65%;
+  width: 500px;
+  height: 420px;
 }
 
 /**Estilos del footer**/
