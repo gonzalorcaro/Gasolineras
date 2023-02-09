@@ -1,30 +1,81 @@
 let idMunicipio;
 
+gasolinerasInicio();
+
+// funcion que se ejecuta al iniciar la aplicación
+async function gasolinerasInicio() {
+  let ip = await obtenerIP();
+  let coordenadas = await coordenadasDesdeIP(ip);
+  let ciudad = await ciudadConCoordenadas(
+    coordenadas.latitud,
+    coordenadas.longitud
+  );
+  let idMunicipio = await obtenerIdMunicipio(ciudad);
+  gasolinerasDeCiudad(idMunicipio);
+}
 
 // funcion que obtiene la ip publica del cliente
 async function obtenerIP() {
-  let response = await fetch('https://api.ipify.org?format=json');
+  let response = await fetch("https://api.ipify.org?format=json");
   let datos = await response.json();
   return datos.ip;
 }
 
-async function usarIP() {
-  let ip = await obtenerIP();
-  
-  corrdenadasDesdeIP(ip);
+// obtener coordenadas desde ip
+async function coordenadasDesdeIP(ip) {
+  let response = await fetch(`https://ipapi.co/${ip}/json/`);
+  let datos = await response.json();
+
+  return {
+    latitud: datos.latitude,
+    longitud: datos.longitude,
+  };
+}
+
+// funcion para obtener el nombre de la ciudad más cercana a través de las coordenadas
+async function ciudadConCoordenadas(lat, lng) {
+  let response = await fetch(
+    `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
+  );
+  let data = await response.json();
+
+  return (data.address.town || data.address.city);
 
 }
 
-usarIP();
+// obtener el id del municipio a partir del nombre
+async function obtenerIdMunicipio(nombreMunicipio) {
+  let response;
+  let API_URL = `municipios.json`;
+  response = await fetch(API_URL);
 
-// obtener coordenadas desde ip
-async function corrdenadasDesdeIP(ip) {
-  let response = await fetch(`https://ipapi.co/${ip}/json/`);
+  let datosMunicipios = await response.json();
+
+  let municipio = datosMunicipios.filter(
+    (municipio) => municipio.Municipio === nombreMunicipio
+  );
+
+  if (municipio != null) {
+    idMunicipio = municipio[0].IDMunicipio;
+    return idMunicipio;
+  }
+}
+
+// obtener gasolineras por ciudad
+async function gasolinerasDeCiudad(idMunicipio) {
+  let response = await fetch(
+    `https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroMunicipio/${idMunicipio}`
+  );
+
   let datos = await response.json();
-  let latitud = datos.latitude;
-  let longitud = datos.longitude;
-  
-  getCityName(latitud, longitud);
+
+  if (datos.ListaEESSPrecio.length != 0) {
+    datos.ListaEESSPrecio.forEach((gasolinera) => {
+      mostrarGasolinera(gasolinera);
+    });
+  } else {
+    noResultsFilters();
+  }
 }
 
 // funcion que devuelve el nombre de la ciudad donde se encuentra el usuario
@@ -41,42 +92,7 @@ function obtenerLocalizacionActual() {
     });
   } else {
     console.error("La geolocalizacion no está disponible en su navegador");
-  } 
-}
-
-// funcion para obtener el nombre de la ciudad más cercana a través de las coordenadas
-function getCityName(lat, lng) {
-  const API_URL = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
-
-  fetch(API_URL)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data.address.town || data.address.city);
-    });
-}
-
-async function ObtenerGasolineras() {
-  let nombre = "Mérida";
-  let idMunicipio = await obtenerIdMunicipio(nombre);
-  console.log(idMunicipio);
-}
-
-async function obtenerIdMunicipio(nombreMunicipio) {
-  let response;
-  let API_URL = `municipios.json`;
-  response = await fetch(API_URL);
-
-  let datosMunicipios = await response.json();
-
-  let municipio = datosMunicipios.filter(
-    (municipio) => municipio.Municipio === nombreMunicipio
-  );
-
-  if (municipio != null) {
-    idMunicipio = municipio[0].IDMunicipio;
   }
-
-  return idMunicipio;
 }
 
 // funcion para obtener las gasolineras de ese idProducto e idMunicipio.
@@ -95,7 +111,7 @@ async function gasolineasPorProductoYMunicipio(idProducto, idMunicipio) {
     noHayResultados();
   }
 }
-
+// pintar una gasolinera
 function mostrarGasolinera(gasolinera) {
   console.log(gasolinera);
 }
@@ -105,11 +121,7 @@ function noHayResultados() {
   console.log("No hay resultados");
 }
 
-idMunicipio = obtenerIdMunicipio("Mérida");
 
-console.log("id: " + idMunicipio);
-
-obtenerLocalizacionActual();
 
 // Cuando el usuario se desplaza hacia abajo 80 px desde la parte superior del documento, cambie el tamaño del relleno de la barra de navegación y el tamaño de fuente del logotipo
 window.onscroll = function () {
