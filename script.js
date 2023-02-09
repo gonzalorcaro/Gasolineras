@@ -1,5 +1,5 @@
 let idMunicipio;
-
+//API KEY googlemaps: AIzaSyBWZJ5Yig-1yOrgN4XtEuIzGtuWhIr4Bgs
 // funcion que devuelve el nombre de la ciudad donde se encuentra el usuario
 function obtenerLocalizacionActual() {
   let latitude;
