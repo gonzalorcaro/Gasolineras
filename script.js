@@ -1,3 +1,38 @@
+
+
+//API KEY googlemaps: AIzaSyBWZJ5Yig-1yOrgN4XtEuIzGtuWhIr4Bgs
+// funcion que devuelve el nombre de la ciudad donde se encuentra el usuario
+
+//Constante que almacena la url para el buscador 
+const urlBuscador = " https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/Listados/MunicipiosPorProvincia/";
+
+
+//Colocar el buscador en el index y asignar los datos (cuando se extraigan de la api)
+ function obtenerMunicipioXProvincia(){
+   
+  let section = document.getElementById("container");
+
+ fetch(urlBuscador)
+          .then((response) =>  response.json())
+          .then((data) => {
+        
+        console.log(data);
+
+        });     
+  };
+
+
+
+
+function obtenerLocalizacionActual() {
+  let latitude;
+  let longitude;
+}
+
+
+
+
+
 let idMunicipio;
 
 gasolinerasInicio();
@@ -137,3 +172,65 @@ function scrollFunction() {
     document.getElementById("logo").style.fontSize = "35px";
   }
 }
+
+
+// mapa
+var map;
+var infowindow;
+var service = new google.maps.places.PlacesService(map);
+
+
+function initMap() {
+  // Creamos un mapa con las coordenadas actuales
+  navigator.geolocation.getCurrentPosition(function (pos) {
+
+    lat = pos.coords.latitude;
+    lon = pos.coords.longitude;
+
+    var myLatlng = new google.maps.LatLng(lat, lon);
+
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 14,
+      mapTypeId: google.maps.MapTypeId.SATELLITE
+    };
+
+    map = new google.maps.Map(document.getElementById("mapa"), mapOptions);
+
+    // Creamos el infowindow
+    infowindow = new google.maps.InfoWindow();
+
+    // Especificamos la localización, el radio y el tipo de lugares que queremos obtener
+    var request = {
+      location: myLatlng,
+      radius: 5000,
+      types: ['cafe']
+    };
+
+    // Creamos el servicio PlaceService y enviamos la petición.
+    var service = new google.maps.places.PlacesService(map);
+
+    service.nearbySearch(request, function (results, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          crearMarcador(results[i]);
+        }
+      }
+    });
+  });
+}
+
+function crearMarcador(place) {
+  // Creamos un marcador
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location
+  });
+
+  // Asignamos el evento click del marcador
+  google.maps.event.addListener(marker, 'click', function () {
+    infowindow.setContent(place.name);
+    infowindow.open(map, this);
+  });
+}
+
