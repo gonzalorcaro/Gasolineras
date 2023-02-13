@@ -15,8 +15,16 @@ async function gasolinerasInicio() {
     coordenadas.longitud
   );
   let idMunicipio = await obtenerIdMunicipio(ciudad);
-  let idProducto = 1;
-  gasolineasPorProductoYMunicipio(idProducto, idMunicipio);
+  let = prue = 780;
+  let datosGasolineras = await gasolineasPorMunicipio(prue);
+  console.log(datosGasolineras.ListaEESSPrecio);
+
+  let cor = [
+    latitud = 38.570113,
+    longitud = -6.330668
+  ]
+  let datosGasolinerasOrdenados = ordenarPorCercania(cor, datosGasolineras.ListaEESSPrecio);
+  console.log(datosGasolinerasOrdenados);
 }
 
 // funcion que obtiene la ip publica del cliente
@@ -83,6 +91,17 @@ function obtenerLocalizacionActual() {
   }
 }
 
+// funcion para obtener las gasolineras de un municipio.
+async function gasolineasPorMunicipio(idMunicipio) {
+  let response;
+  let API_URL = `https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroMunicipio/${idMunicipio}`;
+  response = await fetch(API_URL);
+
+  let datosGasolineras = await response.json();
+
+  return datosGasolineras;
+}
+
 // funcion para obtener las gasolineras de ese idProducto e idMunicipio.
 async function gasolineasPorProductoYMunicipio(idProducto, idMunicipio) {
   let response;
@@ -99,6 +118,18 @@ console.log(datosGasolineras);
     noHayResultados();
   }
 }
+
+// funcion que ordena array por distancia dándole unas coordenadas
+function ordenarPorCercania(coordenadasReferencia, gasolineras) {
+  gasolineras.sort((a, b) => {
+    const distanciaA = Math.hypot(coordenadasReferencia.latitud - a.Latitud, coordenadasReferencia.longitud - a["Longitud (WGS84)"]);
+    const distanciaB = Math.hypot(coordenadasReferencia.latitud - b.Latitud, coordenadasReferencia.longitud - b["Longitud (WGS84)"]);
+    return distanciaA - distanciaB;
+  });
+  return gasolineras;
+}
+
+
 // pintar una gasolinera
 function mostrarGasolinera(gasolinera) {
   console.log(gasolinera);
