@@ -80,17 +80,13 @@ body {
 /**Estilos map**/
 #containerMap {
   position: relative;
-  width: 70%;
+  width: 300px;
   height: 700px;
 }
 
 #map {
-  margin-top: 5%;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 50%;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   background-color: #dddddd;
 }
 
@@ -99,6 +95,11 @@ body {
     height: 60%;
     width: 100%;
   }
+}
+
+#gasolineras {
+  width: 500px;
+  background-color: red;
 }
 
 /**Estilos del footer**/
@@ -152,20 +153,23 @@ body {
   height: 100%;
   width: 20%;
   color: #ff6f00;
-  border: 2px solid rgb(249, 95, 0);  
+  border: 2px solid rgb(249, 95, 0);
 }
 
 /*estilo selectores*/
-#tipoCarburante, #precio, #distancia {
+#tipoCarburante,
+#precio,
+#distancia {
   margin-bottom: 5px;
   color: rgb(249, 95, 0);
 }
 
 /*Div principal*/
 #content {
+  gap: 30px;
   margin-top: 20%;
   width: 100%;
-  flex-wrap: wrap;
-  justify-content: center;
-  flex-direction: column;
+  display: flex;
+  flex-flow: row nowrap;
+  place-content: center space-evenly;
 }
