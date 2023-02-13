@@ -173,3 +173,28 @@ body {
   flex-flow: row nowrap;
   place-content: center space-evenly;
 }
+
+/*Buscador*/
+#buscarGasolinera {
+  color: rgb(249, 95, 0);
+  border : 2px solid rgb(249, 95, 0);
+}
+/*Quita el borde azul del input al pulsar*/
+input:focus {
+  outline:none;
+  
+}
+
+
+#btn-buscar {
+  height: 25px;
+  width: 27px;
+  background-image: url(img/lupaa.png);
+}
+#buscador {
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  
+}
+
