@@ -78,9 +78,35 @@ body {
 /**Fin estilos navbar**/
 
 /**Estilos map**/
-.map {
-  width: 450px;
-  height: 350px;
+#mapa {
+  margin-bottom: 1%;
+  width: 50%;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+  left: 610px;
+  height: 400px;
+}
+
+.contenedorMapa {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.contenedorMapa {
+  margin: 0 auto;
+}
+
+.contenedorMapa ul li {
+  line-height: 2.8;
+}
+
+  {
+  line-height: 2.8;
+
 }
 
 /**Estilos del footer**/

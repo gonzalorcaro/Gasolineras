@@ -3,7 +3,7 @@
 //API KEY googlemaps: AIzaSyBWZJ5Yig-1yOrgN4XtEuIzGtuWhIr4Bgs
 // funcion que devuelve el nombre de la ciudad donde se encuentra el usuario
 
-//Constante que almacena la url para el buscador 
+//Constante que almacena la url para el buscador
 const urlBuscador = " https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestresHist/FiltroMunicipioProducto/{FECHA}/{IDMUNICIPIO}/{IDPRODUCTO}";
 
 function obtenerLocalizacionActual() {
@@ -150,8 +150,8 @@ function scrollFunction() {
     document.getElementById("navbar").style.padding = "30px 10px";
     document.getElementById("logo").style.fontSize = "25px";
   } else {
-    document.getElementById("navbar").style.padding = "80px 10px";
-    document.getElementById("logo").style.fontSize = "35px";
+    document.getElementById("navbar").style.padding = "10px 5px";
+    document.getElementById("logo").style.fontSize = "45px";
   }
 }
 
