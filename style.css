@@ -78,35 +78,27 @@ body {
 /**Fin estilos navbar**/
 
 /**Estilos map**/
-#mapa {
-  margin-bottom: 1%;
+#containerMap {
+  position: relative;
+  width: 70%;
+  height: 700px;
+}
+
+#map {
+  margin-top: 5%;
+  position: absolute;
+  right: 0;
+  top: 0;
   width: 50%;
-  flex-wrap: wrap;
-  justify-content: center;
-  flex-direction: column;
-  left: 610px;
   height: 400px;
+  background-color: #dddddd;
 }
 
-.contenedorMapa {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.contenedorMapa {
-  margin: 0 auto;
-}
-
-.contenedorMapa ul li {
-  line-height: 2.8;
-}
-
-  {
-  line-height: 2.8;
-
+@media screen and (max-width: 580px) {
+  #map {
+    height: 60%;
+    width: 100%;
+  }
 }
 
 /**Estilos del footer**/

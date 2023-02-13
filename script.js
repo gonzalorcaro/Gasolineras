@@ -11,10 +11,6 @@ function obtenerLocalizacionActual() {
   let longitude;
 }
 
-
-
-
-
 let idMunicipio;
 
 gasolinerasInicio();
@@ -155,64 +151,49 @@ function scrollFunction() {
   }
 }
 
+//'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
+//Mapa
+// Initialize the platform object:
+var platform = new H.service.Platform({
+  'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
+});
 
-// mapa
-var map;
-var infowindow;
-var service = new google.maps.places.PlacesService(map);
+// Obtain the default map types from the platform object
+var defaultLayers = platform.createDefaultLayers();
 
+// Instantiate the map:
+var map = new H.Map(
+  document.getElementById('map'),
+  defaultLayers.vector.normal.map,
+  {
+    zoom: 10,
+    center: { lat: 38.9161100, lng: -6.3436600 }
+  });
 
-function initMap() {
-  // Creamos un mapa con las coordenadas actuales
-  navigator.geolocation.getCurrentPosition(function (pos) {
+// Create the default UI:
+var ui = H.ui.UI.createDefault(map, defaultLayers);
 
-    lat = pos.coords.latitude;
-    lon = pos.coords.longitude;
+// Create a search service instance:
+var service = platform.getSearchService();
 
-    var myLatlng = new google.maps.LatLng(lat, lon);
+// Define the parameters for the search request:
+var params = {
+  q: 'gas station',
+  in: '38.9161100,-6.3436600;r=50'
+};
 
-    var mapOptions = {
-      center: myLatlng,
-      zoom: 14,
-      mapTypeId: google.maps.MapTypeId.SATELLITE
-    };
-
-    map = new google.maps.Map(document.getElementById("mapa"), mapOptions);
-
-    // Creamos el infowindow
-    infowindow = new google.maps.InfoWindow();
-
-    // Especificamos la localización, el radio y el tipo de lugares que queremos obtener
-    var request = {
-      location: myLatlng,
-      radius: 5000,
-      types: ['cafe']
-    };
-
-    // Creamos el servicio PlaceService y enviamos la petición.
-    var service = new google.maps.places.PlacesService(map);
-
-    service.nearbySearch(request, function (results, status) {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-          crearMarcador(results[i]);
-        }
-      }
+// Execute the search request:
+service.search(params, function (result) {
+  result.items.forEach(function (item) {
+    // Create a marker for each gas station:
+    var marker = new H.map.Marker({
+      lat: item.position[0],
+      lng: item.position[1]
     });
-  });
-}
 
-function crearMarcador(place) {
-  // Creamos un marcador
-  var marker = new google.maps.Marker({
-    map: map,
-    position: place.geometry.location
+    // Add the marker to the map:
+    map.addObject(marker);
   });
-
-  // Asignamos el evento click del marcador
-  google.maps.event.addListener(marker, 'click', function () {
-    infowindow.setContent(place.name);
-    infowindow.open(map, this);
-  });
-}
-
+}, function (error) {
+  console.error(error);
+});

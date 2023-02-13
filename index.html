@@ -6,13 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href=" https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
   <script src="script.js" defer></script>
 
   <title>Gasolineras</title>
 </head>
 
-<body onload="initMap()">
+<body>
   <header>
     <div class="menu-btn">
       <i class="fas fa-bars"></i>
@@ -41,9 +44,8 @@
         <option value="">Otro</option>
       </select>
     </aside>
-    <div id="contenedorMapa">
-      <div id="mapa">Obtener lugares cercanos</div>
-      <div id="container">
+    <div id="containerMap">
+      <div id="map">
       </div>
     </div>
   </div>
