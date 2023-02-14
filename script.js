@@ -1,8 +1,6 @@
 
-
-//API KEY googlemaps: AIzaSyBWZJ5Yig-1yOrgN4XtEuIzGtuWhIr4Bgs
-
 let idMunicipio;
+let divGasolineras = document.getElementById("gasolineras");
 
 gasolinerasInicio();
 
@@ -15,16 +13,16 @@ async function gasolinerasInicio() {
     coordenadas.longitud
   );
   let idMunicipio = await obtenerIdMunicipio(ciudad);
-  let = prue = 780;
-  let datosGasolineras = await gasolineasPorMunicipio(prue);
-  console.log(datosGasolineras.ListaEESSPrecio);
+  let idGasoil = 4;
+  let datosGasolineras = await gasolineasPorProductoYMunicipio(idMunicipio, idGasoil);
 
-  let cor = [
-    latitud = 38.570113,
-    longitud = -6.330668
-  ]
-  let datosGasolinerasOrdenados = ordenarPorCercania(cor, datosGasolineras.ListaEESSPrecio);
-  console.log(datosGasolinerasOrdenados);
+  let datosGasolinerasOrdenados = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud);
+console.log(datosGasolineras);
+
+  datosGasolinerasOrdenados.forEach((gasolinera) => {
+    mostrarGasolinera(gasolinera, "Gasóleo A");
+  });
+  
 }
 
 // funcion que obtiene la ip publica del cliente
@@ -103,36 +101,109 @@ async function gasolineasPorMunicipio(idMunicipio) {
 }
 
 // funcion para obtener las gasolineras de ese idProducto e idMunicipio.
-async function gasolineasPorProductoYMunicipio(idProducto, idMunicipio) {
+async function gasolineasPorProductoYMunicipio(idMunicipio, idProducto) {
   let response;
-  let API_URL = `https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroMunicipioProducto/${idProducto}/${idMunicipio}`;
+  let API_URL = `https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroMunicipioProducto/${idMunicipio}/${idProducto}`;
   response = await fetch(API_URL);
 
   let datosGasolineras = await response.json();
-console.log(datosGasolineras);
-  if (datosGasolineras.ListaEESSPrecio.length != 0) {
-    datosGasolineras.ListaEESSPrecio.forEach((gasolinera) => {
-      mostrarGasolinera(gasolinera);
-    });
-  } else {
-    noHayResultados();
-  }
+  return datosGasolineras;
 }
 
-// funcion que ordena array por distancia dándole unas coordenadas
-function ordenarPorCercania(coordenadasReferencia, gasolineras) {
-  gasolineras.sort((a, b) => {
-    const distanciaA = Math.hypot(coordenadasReferencia.latitud - a.Latitud, coordenadasReferencia.longitud - a["Longitud (WGS84)"]);
-    const distanciaB = Math.hypot(coordenadasReferencia.latitud - b.Latitud, coordenadasReferencia.longitud - b["Longitud (WGS84)"]);
-    return distanciaA - distanciaB;
+function ordenarPorDistancia(gasolineras, latRef, lonRef) {
+  // Agregar distancia a cada coordenada
+  const gasolinerasConDistancia = gasolineras.map((gasolinera) => {
+    let lat = parseFloat(gasolinera.Latitud.replace(",", "."));
+    let lon = parseFloat(gasolinera["Longitud (WGS84)"].replace(",", "."));
+    const distancia = calcularDistancia(lat, lon, latRef, lonRef);
+    return { gasolinera, distancia };
   });
-  return gasolineras;
+  
+  // Ordenar coordenadas por distancia ascendente
+  gasolinerasConDistancia.sort((a, b) => a.distancia - b.distancia);
+
+  return gasolinerasConDistancia;
+}
+
+// funcion que toma las coordenadas de dos puntos (latitud y longitud) y devuelve la distancia en kilómetros entre ellos
+function calcularDistancia(lat1, lon1, lat2, lon2) {
+  
+  const radioTierra = 6371; // Radio de la Tierra en kilómetros
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distancia = radioTierra * c; // Distancia en kilómetros
+  return distancia;
+}
+
+// La función toRad se utiliza para convertir grados a radianes
+function toRad(grados) {
+  return grados * Math.PI / 180;
 }
 
 
 // pintar una gasolinera
-function mostrarGasolinera(gasolinera) {
-  console.log(gasolinera);
+function mostrarGasolinera(gasolinera, nombreCarburante) {
+  
+  let divGasolinera = document.createElement("div");
+  divGasolinera.classList.add("gasolinera");
+
+  let divFoto = document.createElement("div");
+  divFoto.classList.add("divFoto");
+  divGasolinera.appendChild(divFoto);
+
+  let nombreLogo = obtenerLogoGas(gasolinera.gasolinera.Rótulo);
+
+  let logo = document.createElement("img");
+  logo.classList.add("logo");
+  logo.src = `img/logos/${nombreLogo}.png`;
+
+  divFoto.appendChild(logo);
+
+  let divContenidoGas = document.createElement("div");
+  divContenidoGas.classList.add("divContenidoGas");
+  
+  let pDireccion = document.createElement("p");
+  pDireccion.innerHTML = "<b>"+gasolinera.gasolinera.Dirección+"</b>";
+  divContenidoGas.appendChild(pDireccion);
+
+  let pPrecioProducto = document.createElement("p");
+  pPrecioProducto.classList.add("pPrecioProducto");
+  pPrecioProducto.innerHTML = nombreCarburante + ": " + gasolinera.gasolinera.PrecioProducto + "€";
+  divContenidoGas.appendChild(pPrecioProducto);
+
+  let distancia = document.createElement("p");
+  distancia.id = "distanciaGas";
+  distancia.innerHTML = gasolinera.distancia.toFixed(2) +" km";
+  divContenidoGas.appendChild(distancia);
+
+  divGasolinera.appendChild(divContenidoGas);
+  divGasolineras.appendChild(divGasolinera);
+}
+
+// funcion para
+function obtenerLogoGas(nombre) {
+  let nombreEnMinusculas = nombre.toLowerCase();
+  let nombreFoto;
+  switch(nombreEnMinusculas) {
+    case "cepsa":
+      nombreFoto = "cepsa";
+    break;
+    case "repsol":
+      nombreFoto = "repsol";
+    break;
+    case "shell":
+      nombreFoto = "shell";
+    break;
+    default:
+      nombreFoto = "defaultFoto";
+    break;
+  }
+
+  return nombreFoto;
 }
 
 // función para cuando un filtro no obtenga resultados.

@@ -10,7 +10,12 @@ body {
 /**Estilos navbar**/
 #navbar {
   overflow: hidden;
-  background: -webkit-linear-gradient(left, #ffc800 0%, #ff6f00 50%, #ffc46b 100%);
+  background: -webkit-linear-gradient(
+    left,
+    #ffc800 0%,
+    #ff6f00 50%,
+    #ffc46b 100%
+  );
   padding: 16px 10px;
   transition: 0.4s;
   position: fixed;
@@ -35,7 +40,6 @@ body {
   font-weight: bold;
   transition: 0.4s;
   text-align: center;
-
 }
 
 #navbar a:hover {
@@ -77,6 +81,31 @@ body {
 
 /**Fin estilos navbar**/
 
+#gasolineras {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: 10px;
+
+}
+
+.gasolinera {
+  border: solid black;
+  width: 500px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.logo {
+  width: 100px;
+}
+
 /**Estilos map**/
 #containerMap {
   position: relative;
@@ -97,11 +126,6 @@ body {
   }
 }
 
-#gasolineras {
-  width: 500px;
-  background-color: red;
-}
-
 /**Estilos del footer**/
 
 .footer-links {
@@ -116,7 +140,7 @@ body {
 }
 
 .footer-links a {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .footer-container {
@@ -142,7 +166,6 @@ body {
   padding: 20px 0;
   text-align: center;
   padding-bottom: 15px;
-
 }
 
 /**Fin de estilos footer**/
@@ -172,4 +195,12 @@ body {
   display: flex;
   flex-flow: row nowrap;
   place-content: center space-evenly;
+}
+
+#distanciaGas {
+  color: rgb(249, 95, 0);
+}
+
+.pPrecioProducto {
+color: #ff0000;
 }
