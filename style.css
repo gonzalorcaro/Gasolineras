@@ -77,6 +77,39 @@ body {
 
 /**Fin estilos navbar**/
 
+/**Estilos de cuadro busqueda**/
+.contenido-hero {
+  margin-top: 80px;
+  color: rgb(3, 3, 3);
+}
+
+.contenido-hero form {
+  position: relative;
+  margin-bottom: 0;
+}
+
+.contenido-hero form #buscador {
+  height: 50px;
+  margin-bottom: 0;
+}
+
+.contenido-hero form .submit-buscador {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  padding: 0;
+  display: block;
+  text-indent: -9999px;
+  width: 50px;
+  background-image: url(./img/lupa.jpeg);
+  background-position: right center;
+  background-repeat: no-repeat;
+  border: none;
+}
+
+/**Fin de estilo cuadro de busqueda**/
+
 /**Estilos map**/
 #containerMap {
   position: relative;

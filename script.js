@@ -153,15 +153,15 @@ function scrollFunction() {
 
 //'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
 //Mapa
-// Initialize the platform object:
+// Crea una instancia del servicio de plataforma HERE Maps:
 var platform = new H.service.Platform({
   'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
 });
 
-// Obtain the default map types from the platform object
+// Obtiene los tipos de mapa predeterminados de la plataforma:
 var defaultLayers = platform.createDefaultLayers();
 
-// Instantiate the map:
+// Crea una instancia del mapa:
 var map = new H.Map(
   document.getElementById('map'),
   defaultLayers.vector.normal.map,
@@ -170,30 +170,25 @@ var map = new H.Map(
     center: { lat: 38.9161100, lng: -6.3436600 }
   });
 
-// Create the default UI:
+// Crea la interfaz de usuario predeterminada:
 var ui = H.ui.UI.createDefault(map, defaultLayers);
 
-// Create a search service instance:
-var service = platform.getSearchService();
+// Crea una instancia del servicio de búsqueda:
+var searchService = platform.getSearchService();
 
-// Define the parameters for the search request:
-var params = {
-  q: 'gas station',
-  in: '38.9161100,-6.3436600;r=50'
-};
-
-// Execute the search request:
-service.search(params, function (result) {
-  result.items.forEach(function (item) {
-    // Create a marker for each gas station:
-    var marker = new H.map.Marker({
-      lat: item.position[0],
-      lng: item.position[1]
-    });
-
-    // Add the marker to the map:
-    map.addObject(marker);
+// Función para mostrar las gasolineras en el mapa
+function mostrarGasolineraEnMapa(gasolinera) {
+  // Crea una marca en el mapa en las coordenadas específicas
+  var marker = new H.map.Marker({
+    lat: gasolinera.Latitud,
+    lng: gasolinera.Longitud
   });
-}, function (error) {
-  console.error(error);
-});
+
+  // Agrega la marca al mapa
+  map.addObject(marker);
+}
+
+// Agrega todas las gasolineras al mapa de una sola vez
+map.addObjects(datosGasolineras.map(mostrarGasolineraEnMapa));
+
+
