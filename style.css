@@ -81,6 +81,51 @@ body {
 
 /**Fin estilos navbar**/
 
+/*Estilos de cuadro busqueda*/
+
+.six-columns{
+  text-align: center;
+}
+
+.contenido-hero {
+  padding-left: 35%;
+  padding-right: 40%;
+}
+
+.contenido-hero {
+  margin-top: 80px;
+  color: rgb(3, 3, 3);
+  margin:0px auto;
+}
+
+.contenido-hero form {
+  position: relative;
+  margin-bottom: 0;
+}
+
+.contenido-hero form #buscador {
+  height: 50px;
+  margin-bottom: 0;
+}
+
+.contenido-hero form .submit-buscador {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  padding: 0;
+  display: block;
+  text-indent: -9999px;
+  width: 50px;
+  background-image: url(./img/lupa.jpeg);
+  background-position: right center;
+  background-repeat: no-repeat;
+  border: none;
+}
+
+/*Fin de estilo cuadro de busqueda*/
+
+/** estilos mostrar gasolineras **/
 #gasolineras {
   width: 500px;
   display: flex;
@@ -105,6 +150,8 @@ body {
 .logo {
   width: 100px;
 }
+
+/** Fin estilos mostrar gasolineras **/
 
 /**Estilos map**/
 #containerMap {
@@ -218,7 +265,6 @@ input:focus {
   outline: none;
 
 }
-
 
 #btn-buscar {
   height: 25px;
