@@ -213,6 +213,10 @@ function noHayResultados() {
 
 
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 //'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
 //Mapa
 // Crea una instancia del servicio de plataforma HERE Maps:
@@ -239,6 +243,7 @@ var ui = H.ui.UI.createDefault(map, defaultLayers);
 var searchService = platform.getSearchService();
 
 // Crea una marca en el mapa en las coordenadas específicas
+<<<<<<< Updated upstream
 funciton marcarMapa(lat, long){
   var marker = new H.map.Marker({
     lat: lat,
@@ -249,6 +254,12 @@ funciton marcarMapa(lat, long){
 }
 
 
+=======
+var marker = new H.map.Marker({
+  lat: 38.9161100,
+  lng: -6.3436600
+});
+>>>>>>> Stashed changes
 
 
 

@@ -181,7 +181,7 @@ body {
 }
 
 .footer-links h3 {
-  font-family: Old English Text MT;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .footer-links a {
@@ -244,6 +244,7 @@ body {
   place-content: center space-evenly;
 }
 
+<<<<<<< Updated upstream
 #distanciaGas {
   color: rgb(249, 95, 0);
 }
@@ -252,6 +253,10 @@ body {
   color: #ff0000;
 }
 
+=======
+<<<<<<< Updated upstream=======
+
+>>>>>>> Stashed changes
 /*Buscador*/
 #buscarGasolinera {
   color: rgb(249, 95, 0);
@@ -276,3 +281,8 @@ input:focus {
   align-items: center;
 
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>>Stashed changes
+>>>>>>> Stashed changes
