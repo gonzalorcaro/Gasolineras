@@ -17,12 +17,12 @@ async function gasolinerasInicio() {
   let datosGasolineras = await gasolineasPorProductoYMunicipio(idMunicipio, idGasoil);
 
   let datosGasolinerasOrdenados = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud);
-console.log(datosGasolineras);
+  console.log(datosGasolineras);
 
   datosGasolinerasOrdenados.forEach((gasolinera) => {
     mostrarGasolinera(gasolinera, "Gasóleo A");
   });
-  
+
 }
 
 // funcion que obtiene la ip publica del cliente
@@ -118,7 +118,7 @@ function ordenarPorDistancia(gasolineras, latRef, lonRef) {
     const distancia = calcularDistancia(lat, lon, latRef, lonRef);
     return { gasolinera, distancia };
   });
-  
+
   // Ordenar coordenadas por distancia ascendente
   gasolinerasConDistancia.sort((a, b) => a.distancia - b.distancia);
 
@@ -127,13 +127,13 @@ function ordenarPorDistancia(gasolineras, latRef, lonRef) {
 
 // funcion que toma las coordenadas de dos puntos (latitud y longitud) y devuelve la distancia en kilómetros entre ellos
 function calcularDistancia(lat1, lon1, lat2, lon2) {
-  
+
   const radioTierra = 6371; // Radio de la Tierra en kilómetros
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distancia = radioTierra * c; // Distancia en kilómetros
   return distancia;
@@ -147,7 +147,7 @@ function toRad(grados) {
 
 // pintar una gasolinera
 function mostrarGasolinera(gasolinera, nombreCarburante) {
-  
+
   let divGasolinera = document.createElement("div");
   divGasolinera.classList.add("gasolinera");
 
@@ -165,9 +165,9 @@ function mostrarGasolinera(gasolinera, nombreCarburante) {
 
   let divContenidoGas = document.createElement("div");
   divContenidoGas.classList.add("divContenidoGas");
-  
+
   let pDireccion = document.createElement("p");
-  pDireccion.innerHTML = "<b>"+gasolinera.gasolinera.Dirección+"</b>";
+  pDireccion.innerHTML = "<b>" + gasolinera.gasolinera.Dirección + "</b>";
   divContenidoGas.appendChild(pDireccion);
 
   let pPrecioProducto = document.createElement("p");
@@ -177,7 +177,7 @@ function mostrarGasolinera(gasolinera, nombreCarburante) {
 
   let distancia = document.createElement("p");
   distancia.id = "distanciaGas";
-  distancia.innerHTML = gasolinera.distancia.toFixed(2) +" km";
+  distancia.innerHTML = gasolinera.distancia.toFixed(2) + " km";
   divContenidoGas.appendChild(distancia);
 
   divGasolinera.appendChild(divContenidoGas);
@@ -188,19 +188,19 @@ function mostrarGasolinera(gasolinera, nombreCarburante) {
 function obtenerLogoGas(nombre) {
   let nombreEnMinusculas = nombre.toLowerCase();
   let nombreFoto;
-  switch(nombreEnMinusculas) {
+  switch (nombreEnMinusculas) {
     case "cepsa":
       nombreFoto = "cepsa";
-    break;
+      break;
     case "repsol":
       nombreFoto = "repsol";
-    break;
+      break;
     case "shell":
       nombreFoto = "shell";
-    break;
+      break;
     default:
       nombreFoto = "defaultFoto";
-    break;
+      break;
   }
 
   return nombreFoto;
@@ -239,13 +239,17 @@ var ui = H.ui.UI.createDefault(map, defaultLayers);
 var searchService = platform.getSearchService();
 
 // Crea una marca en el mapa en las coordenadas específicas
-var marker = new H.map.Marker({
-  lat: 38.9161100,
-  lng: -6.3436600
-});
+funciton marcarMapa(lat, long){
+  var marker = new H.map.Marker({
+    lat: lat,
+    lng: long
+  });
+  // Agrega la marca al mapa
+  map.addObject(marker);
+}
 
-// Agrega la marca al mapa
-map.addObject(marker);
+
+
 
 
 
