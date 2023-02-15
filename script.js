@@ -17,10 +17,15 @@ async function gasolinerasInicio() {
   let datosGasolineras = await gasolineasPorProductoYMunicipio(idMunicipio, idGasoil);
 
   let datosGasolinerasOrdenados = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud);
-console.log(datosGasolineras);
+  console.log(datosGasolineras);
+
+  crearMapa(coordenadas.latitud, coordenadas.longitud);
 
   datosGasolinerasOrdenados.forEach((gasolinera) => {
     mostrarGasolinera(gasolinera, "Gasóleo A");
+    let lat = parseFloat(gasolinera.gasolinera.Latitud.replace(",", "."));
+    let lon = parseFloat(gasolinera.gasolinera["Longitud (WGS84)"].replace(",", "."));
+    addMarcadorMapa(lat, lon, coordenadas.latitud, coordenadas.longitud);
   });
   
 }
@@ -215,37 +220,50 @@ function noHayResultados() {
 
 //'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
 //Mapa
-// Crea una instancia del servicio de plataforma HERE Maps:
-var platform = new H.service.Platform({
-  'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
-});
 
-// Obtiene los tipos de mapa predeterminados de la plataforma:
-var defaultLayers = platform.createDefaultLayers();
+//funcion que crea el mapa
+let map;
+function crearMapa(latRef, longRef) {
+  console.log("crearMapa");
+      // Crea una instancia del servicio de plataforma HERE Maps:
+    var platform = new H.service.Platform({
+      'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
+    });
 
-// Crea una instancia del mapa:
-var map = new H.Map(
-  document.getElementById('map'),
-  defaultLayers.vector.normal.map,
-  {
-    zoom: 10,
-    center: { lat: 38.9161100, lng: -6.3436600 }
-  });
+    // Obtiene los tipos de mapa predeterminados de la plataforma:
+    var defaultLayers = platform.createDefaultLayers();
 
-// Crea la interfaz de usuario predeterminada:
-var ui = H.ui.UI.createDefault(map, defaultLayers);
+    map = new H.Map(
+    document.getElementById('map'),
+    defaultLayers.vector.normal.map,
+    {
+      zoom: 10,
+      center: { lat: latRef, lng: longRef }
+    });
 
-// Crea una instancia del servicio de búsqueda:
-var searchService = platform.getSearchService();
+    // Crea la interfaz de usuario predeterminada:
+    var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+    // Crea una instancia del servicio de búsqueda:
+    var searchService = platform.getSearchService();
+    console.log("crearMapa finn");
+}
 
 // Crea una marca en el mapa en las coordenadas específicas
-var marker = new H.map.Marker({
-  lat: 38.9161100,
-  lng: -6.3436600
-});
+function addMarcadorMapa(latGas, longGas) {
+  console.log(latGas);
+  console.log(longGas);
+  let marker = new H.map.Marker({
+    lat: latGas,
+    lng: longGas
+  });
+
+  map.addObject(marker);
+}
+
 
 // Agrega la marca al mapa
-map.addObject(marker);
+
 
 
 
