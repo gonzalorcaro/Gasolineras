@@ -10,12 +10,10 @@ body {
 /**Estilos navbar**/
 #navbar {
   overflow: hidden;
-  background: -webkit-linear-gradient(
-    left,
-    #ffc800 0%,
-    #ff6f00 50%,
-    #ffc46b 100%
-  );
+  background: -webkit-linear-gradient(left,
+      #ffc800 0%,
+      #ff6f00 50%,
+      #ffc46b 100%);
   padding: 16px 10px;
   transition: 0.4s;
   position: fixed;
@@ -83,7 +81,7 @@ body {
 
 /*Estilos de cuadro busqueda*/
 
-.six-columns{
+.six-columns {
   text-align: center;
 }
 
@@ -95,7 +93,7 @@ body {
 .contenido-hero {
   margin-top: 80px;
   color: rgb(3, 3, 3);
-  margin:0px auto;
+  margin: 0px auto;
 }
 
 .contenido-hero form {
@@ -183,7 +181,7 @@ body {
 }
 
 .footer-links h3 {
-  font-family: Old English Text MT;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .footer-links a {
@@ -246,14 +244,19 @@ body {
   place-content: center space-evenly;
 }
 
+<<<<<<< Updated upstream
 #distanciaGas {
   color: rgb(249, 95, 0);
 }
 
 .pPrecioProducto {
-color: #ff0000;
+  color: #ff0000;
 }
 
+=======
+<<<<<<< Updated upstream=======
+
+>>>>>>> Stashed changes
 /*Buscador*/
 #buscarGasolinera {
   color: rgb(249, 95, 0);
@@ -278,4 +281,8 @@ input:focus {
   align-items: center;
 
 }
+<<<<<<< Updated upstream
+=======
 
+>>>>>>>Stashed changes
+>>>>>>> Stashed changes
