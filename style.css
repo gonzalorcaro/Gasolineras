@@ -172,7 +172,9 @@ body {
 
 /**Estilo Menu/Aside**/
 #menu {
-  padding-bottom: 10%;
+  padding-bottom: 7%;
+  padding-left: 5px;
+  padding-top: 5px;
   height: 100%;
   width: 20%;
   color: #ff6f00;
@@ -204,3 +206,30 @@ body {
 .pPrecioProducto {
 color: #ff0000;
 }
+
+/*Buscador*/
+#buscarGasolinera {
+  color: rgb(249, 95, 0);
+  border: 2px solid rgb(249, 95, 0);
+}
+
+/*Quita el borde azul del input al pulsar*/
+input:focus {
+  outline: none;
+
+}
+
+
+#btn-buscar {
+  height: 25px;
+  width: 27px;
+  background-image: url(img/lupaa.png);
+}
+
+#buscador {
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+
+}
+

@@ -213,6 +213,48 @@ function noHayResultados() {
 
 
 
+//'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
+//Mapa
+// Crea una instancia del servicio de plataforma HERE Maps:
+var platform = new H.service.Platform({
+  'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
+});
+
+// Obtiene los tipos de mapa predeterminados de la plataforma:
+var defaultLayers = platform.createDefaultLayers();
+
+// Crea una instancia del mapa:
+var map = new H.Map(
+  document.getElementById('map'),
+  defaultLayers.vector.normal.map,
+  {
+    zoom: 10,
+    center: { lat: 38.9161100, lng: -6.3436600 }
+  });
+
+// Crea la interfaz de usuario predeterminada:
+var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+// Crea una instancia del servicio de búsqueda:
+var searchService = platform.getSearchService();
+
+// Crea una marca en el mapa en las coordenadas específicas
+var marker = new H.map.Marker({
+  lat: 38.9161100,
+  lng: -6.3436600
+});
+
+// Agrega la marca al mapa
+map.addObject(marker);
+
+
+
+
+
+
+
+
+
 // Cuando el usuario se desplaza hacia abajo 80 px desde la parte superior del documento, cambie el tamaño del relleno de la barra de navegación y el tamaño de fuente del logotipo
 window.onscroll = function () {
   scrollFunction();
@@ -227,50 +269,3 @@ function scrollFunction() {
     document.getElementById("logo").style.fontSize = "45px";
   }
 }
-
-//'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
-//Mapa
-// Initialize the platform object:
-var platform = new H.service.Platform({
-  'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
-});
-
-// Obtain the default map types from the platform object
-var defaultLayers = platform.createDefaultLayers();
-
-// Instantiate the map:
-var map = new H.Map(
-  document.getElementById('map'),
-  defaultLayers.vector.normal.map,
-  {
-    zoom: 10,
-    center: { lat: 38.9161100, lng: -6.3436600 }
-  });
-
-// Create the default UI:
-var ui = H.ui.UI.createDefault(map, defaultLayers);
-
-// Create a search service instance:
-var service = platform.getSearchService();
-
-// Define the parameters for the search request:
-var params = {
-  q: 'gas station',
-  in: '38.9161100,-6.3436600;r=50'
-};
-
-// Execute the search request:
-service.search(params, function (result) {
-  result.items.forEach(function (item) {
-    // Create a marker for each gas station:
-    var marker = new H.map.Marker({
-      lat: item.position[0],
-      lng: item.position[1]
-    });
-
-    // Add the marker to the map:
-    map.addObject(marker);
-  });
-}, function (error) {
-  console.error(error);
-});
