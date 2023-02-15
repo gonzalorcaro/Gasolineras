@@ -42,7 +42,7 @@
               <div class="contenido-hero">
                 <form>
                   <input class="u-full-width" type="text" id="buscador">
-                  <input type="submit" class="submit-buscador">
+                  <input type="submit" class="submit-buscador" onclick="buscarGasolinera()">
                 </form>
               </div>
 
@@ -58,19 +58,21 @@
   <div id="content">
     <aside id="menu">
       <h5>Filtrar el contenido por :</h5>
-      <select id="tipoCarburante">
-        <option value="">Tipo de Carburante</option>
+      <label for="carburante">Tipo de Carburante</label>
+      <select id="tipoCarburante" name="carburante">
+        <option value=""></option>
         <option value=""></option>
         <br>
       </select>
-      <select id="distancia">
-        <option value="">Distancia</option>
-        <option value="">menos de 5 km</option>
-        <option value="">menos de 10 km</option>
+      <label for="distancia">Distancia</label>
+      <select id="distancia" name="distancia">
+        <option value="">Ascendente</option>
+        <option value="">Descendente</option>
+        <option value="">Sin relevancia</option>
       </select>
       <br>
-      <select id="precio">
-        <option value="">Precio</option>
+      <label for="precio">Precio</label>
+      <select id="precio" name="precio">
         <option value="">Ascendente</option>
         <option value="">Descendente</option>
         <option value="">Sin relevancia</option>

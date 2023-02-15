@@ -71,7 +71,30 @@ async function obtenerIdMunicipio(nombreMunicipio) {
     return idMunicipio;
   }
 }
+//Funcion para el buscador : muestra las gasolineras del municipio buscado
+async function buscarGasolinera(){
 
+  let url = 'municipios.json';
+  let municipioElegido = document.getElementById("buscador");
+  let response;
+
+  //Para que se admita el nombre del municipio en minúsculas
+  response = await fetch(`${url}${municipioElegido.value.toLowerCase()}`)
+
+  let datosMunicipios = await response.json();
+
+  let municipio = datosMunicipios.filter(
+    (municipio) => municipio.Municipio === municipioElegido.value
+
+  );
+
+  if(municipio != municipioElegido.value){
+
+        noHayResultados(); 
+  }
+
+
+}
 // funcion que devuelve el nombre de la ciudad donde se encuentra el usuario
 function obtenerLocalizacionActual() {
   let latitude;
