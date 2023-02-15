@@ -111,6 +111,23 @@ function noHayResultados() {
 
 
 
+<<<<<<< Updated upstream
+=======
+// Cuando el usuario se desplaza hacia abajo 80 px desde la parte superior del documento, cambie el tamaño del relleno de la barra de navegación y el tamaño de fuente del logotipo
+window.onscroll = function () {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    document.getElementById("navbar").style.padding = "10px 5px";
+    document.getElementById("logo").style.fontSize = "25px";
+  } else {
+    document.getElementById("navbar").style.padding = "5px 1px";
+    document.getElementById("logo").style.fontSize = "45px";
+  }
+}
+>>>>>>> Stashed changes
 
 //'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
 //Mapa
@@ -137,11 +154,23 @@ var ui = H.ui.UI.createDefault(map, defaultLayers);
 // Crea una instancia del servicio de búsqueda:
 var searchService = platform.getSearchService();
 
+<<<<<<< Updated upstream
 // Crea una marca en el mapa en las coordenadas específicas
 var marker = new H.map.Marker({
   lat: 38.9161100,
   lng: -6.3436600
 });
+=======
+// Función para mostrar las gasolineras en el mapa
+function mostrarGasolineraEnMapa(gasolinera) {
+  console.log(gasolinera);
+  // Crea una marca en el mapa en las coordenadas específicas
+  var marker = new H.map.Marker({
+
+    lat: gasolinera.Latitud,
+    lng: gasolinera.Longitud
+  });
+>>>>>>> Stashed changes
 
 // Agrega la marca al mapa
 map.addObject(marker);
@@ -168,3 +197,15 @@ function scrollFunction() {
     document.getElementById("logo").style.fontSize = "45px";
   }
 }
+<<<<<<< Updated upstream
+=======
+
+mostrarGasolineraEnMapa();
+
+/* Agrega todas las gasolineras al mapa de una sola vez
+console.log(datosGasolineras);
+map.addObjects(datosGasolineras.map(mostrarGasolineraEnMapa));**/
+
+
+
+>>>>>>> Stashed changes
