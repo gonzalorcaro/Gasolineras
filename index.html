@@ -12,6 +12,7 @@
   <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
   <link rel="stylesheet" type="text/css" href=" https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
   <script src="script.js" defer></script>
 
@@ -55,32 +56,39 @@
       </div>
     </div>
   </header>
-  <div id="content">
-    <aside id="menu">
-      <h5>Filtrar el contenido por :</h5>
-      <select id="tipoCarburante">
-        <option value="">Tipo de Carburante</option>
-        <option value=""></option>
-        <br>
-      </select>
-      <select id="distancia">
-        <option value="">Distancia</option>
-        <option value="">menos de 5 km</option>
-        <option value="">menos de 10 km</option>
-      </select>
-      <br>
-      <select id="precio">
-        <option value="">Precio</option>
-        <option value="">Ascendente</option>
-        <option value="">Descendente</option>
-        <option value="">Sin relevancia</option>
-      </select>
-    </aside>
-    <div id="gasolineras">
+  <div class="container-video">
+    <video autoplay muted loop id="myVideo">
+      <source src="./video/gasolina-29415.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+    <div id="content">
 
-    </div>
-    <div id="containerMap">
-      <div id="map">
+      <aside id="menu">
+        <h5>Filtrar el contenido por :</h5>
+        <select id="tipoCarburante">
+          <option value="">Tipo de Carburante</option>
+          <option value=""></option>
+          <br>
+        </select>
+        <select id="distancia">
+          <option value="">Distancia</option>
+          <option value="">menos de 5 km</option>
+          <option value="">menos de 10 km</option>
+        </select>
+        <br>
+        <select id="precio">
+          <option value="">Precio</option>
+          <option value="">Ascendente</option>
+          <option value="">Descendente</option>
+          <option value="">Sin relevancia</option>
+        </select>
+      </aside>
+      <div id="gasolineras">
+
+      </div>
+      <div id="containerMap">
+        <div id="map">
+        </div>
       </div>
     </div>
   </div>
@@ -137,9 +145,6 @@
         <a href="#">Blockchains</a>
       </LI>
       <LI>
-<<<<<<< Updated upstream
-        <a href="#"></a>
-=======
         <a href="#">Blockchains</a>
       </LI>
 
@@ -199,7 +204,6 @@
 
       </LI>
     </ul>
->>>>>>> Stashed changes
   </div>
 </div>
 
