@@ -42,7 +42,7 @@ body {
   border-radius: 100px;
 }
 
-#navbar #logo {
+#logo {
   font-size: 35px;
   font-weight: bold;
   transition: 0.4s;
@@ -95,7 +95,7 @@ body {
 }
 
 .contenido-hero {
-  padding-left: 35%;
+  padding-left: 20%;
   padding-right: 40%;
 }
 
@@ -169,10 +169,9 @@ body {
 }
 
 #map {
-  border: 2px solid orangered;
-  width: 300px;
-  height: 300px;
-  background-color: #dddddd;
+  border: solid 2px orangered;
+  width: 350px;
+  height: 350px;
 }
 
 @media screen and (max-width: 580px) {
@@ -232,10 +231,31 @@ body {
   padding-bottom: 7%;
   padding-left: 5px;
   padding-top: 5px;
+  padding-right: 5px;
   height: 100%;
   width: 20%;
   color: #ff6f00;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+/*Boton para obtener la ubicacion actual*/
+#btn-ubi {
+  transform: scale(0.7);
   border: 2px solid rgb(249, 95, 0);
+
+}
+
+#btn-ubi:hover {
+  transform: rotate(5deg) scale(1);
+  background: -webkit-linear-gradient(left,
+      #ffc800 0%,
+      #ff6f00 50%,
+      #ffc46b 100%);
+  color: white;
 }
 
 /*estilo selectores*/
@@ -246,49 +266,59 @@ body {
   color: rgb(249, 95, 0);
 }
 
+#tipoCarburante:hover,
+#precio:hover,
+#distancia:hover {
+  background-color: #cc8752be;
+  color: white;
+  font-size: 20px;
+}
+
+
 /*Div principal*/
 #content {
   gap: 30px;
-  margin-top: 20%;
+  margin-top: 15%;
   width: 100%;
   display: flex;
   flex-flow: row nowrap;
   place-content: center space-evenly;
 }
 
-<<<<<<< Updated upstream #distanciaGas {
-  color: rgb(249, 95, 0);
-}
+<<<<<<< HEAD <<<<<<< Updated upstream #distanciaGas {
+  =======#distanciaGas {
+    >>>>>>>a6b6f98f2e9fb7c836ca950a2b324d0d04d50d99 color: rgb(249, 95, 0);
+  }
 
-.pPrecioProducto {
-  color: #ff0000;
-}
+  .pPrecioProducto {
+    color: #ff0000;
+  }
 
-=======<<<<<<< Updated upstream=======>>>>>>>Stashed changes
+  <<<<<<< HEAD=======<<<<<<< Updated upstream=======>>>>>>>Stashed changes
 
-/*Buscador*/
-#buscarGasolinera {
-  color: rgb(249, 95, 0);
-  border: 2px solid rgb(249, 95, 0);
-}
+  /*Buscador*/
+  #buscarGasolinera {
+    color: rgb(249, 95, 0);
+    border: 2px solid rgb(249, 95, 0);
+  }
 
-/*Quita el borde azul del input al pulsar*/
-input:focus {
-  outline: none;
+  /*Quita el borde azul del input al pulsar*/
+  input:focus {
+    outline: none;
 
-}
+  }
 
-#btn-buscar {
-  height: 25px;
-  width: 27px;
-  background-image: url(img/lupaa.png);
-}
+  #btn-buscar {
+    height: 25px;
+    width: 27px;
+    background-image: url(img/lupaa.png);
+  }
 
-#buscador {
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
+  #buscador {
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
 
-}
+  }
 
-<<<<<<< Updated upstream=======>>>>>>>Stashed changes>>>>>>>Stashed changes
+  <<<<<<< Updated upstream=======>>>>>>>Stashed changes>>>>>>>Stashed changes=======>>>>>>>a6b6f98f2e9fb7c836ca950a2b324d0d04d50d99

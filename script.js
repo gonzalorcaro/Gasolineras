@@ -2,11 +2,13 @@
 
 let idMunicipio;
 let divGasolineras = document.getElementById("gasolineras");
-
-gasolinerasInicio();
+let divMapa = document.getElementById("map");
+let selectorCarburante = document.getElementById("tipoCarburante");
+let buscador = document.getElementById("buscador");
 
 // funcion que se ejecuta al iniciar la aplicación
 async function gasolinerasInicio() {
+
   let ip = await obtenerIP();
   let coordenadas = await coordenadasDesdeIP(ip);
   let ciudad = await ciudadConCoordenadas(
@@ -17,18 +19,160 @@ async function gasolinerasInicio() {
   let idGasoil = 4;
   let datosGasolineras = await gasolineasPorProductoYMunicipio(idMunicipio, idGasoil);
 
-  let datosGasolinerasOrdenados = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud);
-  console.log(datosGasolineras);
+  let datosGasolinerasOrdenados = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud, "ascendente");
 
   crearMapa(coordenadas.latitud, coordenadas.longitud);
 
+  datosGasolinerasOrdenados.sort(function (a, b) {
+    return Math.random() - 0.5;
+  });
+
   datosGasolinerasOrdenados.forEach((gasolinera) => {
-    mostrarGasolinera(gasolinera, "Gasóleo A");
+    mostrarGasolinera(gasolinera.gasolinera, gasolinera.distancia, selectorCarburante.options[selectorCarburante.selectedIndex].textContent);
     let lat = parseFloat(gasolinera.gasolinera.Latitud.replace(",", "."));
     let lon = parseFloat(gasolinera.gasolinera["Longitud (WGS84)"].replace(",", "."));
     addMarcadorMapa(lat, lon, coordenadas.latitud, coordenadas.longitud);
   });
 
+}
+
+// funcion que muestra las gasolineras con los filtros aplicados
+async function aplicarFiltrosGasolineras() {
+  let buscador = document.getElementById("buscador");
+  let selectorCarburante = document.getElementById("tipoCarburante");
+  let selectorDistancia = document.getElementById("distancia");
+  let selectorPrecio = document.getElementById("precio");
+
+  let idMunicipio;
+  let coordenadas;
+
+  if (buscador.value == "" || buscador.value == null) {
+    let ip = await obtenerIP();
+    coordenadas = await coordenadasDesdeIP(ip);
+    let ciudad = await ciudadConCoordenadas(
+      coordenadas.latitud,
+      coordenadas.longitud
+    );
+    idMunicipio = await obtenerIdMunicipio(ciudad);
+  } else {
+    let ciudad = buscador.value;
+    idMunicipio = await obtenerIdMunicipio(ciudad);
+    if (idMunicipio !== undefined) {
+      coordenadas = await obtenerCoordenadas(ciudad);
+    }
+  }
+
+  if (idMunicipio != "" && idMunicipio != null) {
+    let idCarburante = selectorCarburante.value;
+
+    let datosGasolineras = await gasolineasPorProductoYMunicipio(idMunicipio, idCarburante);
+
+    if (selectorDistancia.value != "relevancia" && selectorPrecio.value == "relevancia") {
+
+      switch (selectorDistancia.value) {
+        case "ascendente":
+          datosGasolineras = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud, "ascendente");
+          break;
+        case "descendente":
+          datosGasolineras = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud, "descendente");
+          break;
+      }
+
+    } else if (selectorDistancia.value == "relevancia" && selectorPrecio.value != "relevancia") {
+
+      datosGasolineras = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud, "ascendente");
+
+      switch (selectorPrecio.value) {
+        case "ascendente":
+          datosGasolineras = ordenarPorPrecio(datosGasolineras, "ascendente");
+          break;
+        case "descendente":
+          datosGasolineras = ordenarPorPrecio(datosGasolineras, "descendente");
+          break;
+      }
+    } else if (selectorDistancia.value == "relevancia") {
+      datosGasolineras = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud, "ascendente");
+
+      datosGasolineras.sort(function (a, b) {
+        return Math.random() - 0.5;
+      });
+    }
+
+    eliminarGasolinerasYMapa();
+
+    if (datosGasolineras.length !== 0) {
+      crearMapa(coordenadas.latitud, coordenadas.longitud);
+
+      datosGasolineras.forEach((gasolinera) => {
+        mostrarGasolinera(gasolinera.gasolinera, gasolinera.distancia, selectorCarburante.options[selectorCarburante.selectedIndex].textContent);
+        let lat = parseFloat(gasolinera.gasolinera.Latitud.replace(",", "."));
+        let lon = parseFloat(gasolinera.gasolinera["Longitud (WGS84)"].replace(",", "."));
+        addMarcadorMapa(lat, lon, coordenadas.latitud, coordenadas.longitud);
+      });
+
+    } else {
+      noHayResultados();
+    }
+
+  } else {
+    noHayResultados();
+  }
+
+}
+
+// funcion para llenar el selector de carburante con datos de la API.
+async function llenarSelectorCarburante() {
+  let response;
+  let API_URL = `https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/Listados/ProductosPetroliferos/`;
+  response = await fetch(API_URL);
+
+  let datosCarburantes = await response.json();
+
+  datosCarburantes.forEach((carburante) => {
+    let option = document.createElement("option");
+    option.text = carburante.NombreProducto;
+
+    if (carburante.IDProducto == 4) {
+      option.selected = true;
+    }
+
+    option.value = carburante.IDProducto;
+    selectorCarburante.appendChild(option);
+  });
+}
+
+// funcion que resuelve conflicto entre selector de precio y distancia
+function conflictoSelectores(event) {
+  let selectorDistancia = document.getElementById("distancia");
+  let selectorPrecio = document.getElementById("precio");
+
+  let idSelect = event.target.id;
+
+  switch (idSelect) {
+    case "distancia":
+      selectorPrecio.value = "relevancia";
+      break;
+    case "precio":
+      selectorDistancia.value = "relevancia";
+      break;
+  }
+}
+
+// funcion que devuelve el nombre de la ciudad donde se encuentra el usuario
+async function obtenerLocalizacionActual() {
+  if ("geolocation" in navigator) {
+    const position = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+
+    const ciudad = await ciudadConCoordenadas(position.coords.latitude, position.coords.longitude);
+    console.log(ciudad);
+    buscador.value = ciudad;
+
+    aplicarFiltrosGasolineras();
+  } else {
+    console.error("La geolocalización no está disponible en su navegador");
+  }
 }
 
 // funcion que obtiene la ip publica del cliente
@@ -47,6 +191,23 @@ async function coordenadasDesdeIP(ip) {
     latitud: datos.latitude,
     longitud: datos.longitude,
   };
+}
+
+// obtener coordenadas desde nombre del municipio
+async function obtenerCoordenadas(ciudad) {
+  // Hacer una petición a la API de OpenStreetMap para buscar las coordenadas de la ciudad
+  return fetch(`https://nominatim.openstreetmap.org/search?q=${ciudad}, Spain&format=json`)
+    .then(response => response.json())
+    .then(data => {
+      // Obtener las coordenadas del primer resultado
+      const lat = data[0].lat;
+      const lon = data[0].lon;
+
+      return {
+        latitud: lat,
+        longitud: lon
+      };
+    });
 }
 
 // funcion para obtener el nombre de la ciudad más cercana a través de las coordenadas
@@ -72,26 +233,9 @@ async function obtenerIdMunicipio(nombreMunicipio) {
     (municipio) => municipio.Municipio === nombreMunicipio
   );
 
-  if (municipio != null) {
+  if (municipio.length != 0) {
     idMunicipio = municipio[0].IDMunicipio;
     return idMunicipio;
-  }
-}
-
-// funcion que devuelve el nombre de la ciudad donde se encuentra el usuario
-function obtenerLocalizacionActual() {
-  let latitude;
-  let longitude;
-
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
-
-      let ciudad = getCityName(latitude, longitude);
-    });
-  } else {
-    console.error("La geolocalizacion no está disponible en su navegador");
   }
 }
 
@@ -116,7 +260,22 @@ async function gasolineasPorProductoYMunicipio(idMunicipio, idProducto) {
   return datosGasolineras;
 }
 
-function ordenarPorDistancia(gasolineras, latRef, lonRef) {
+// ordenar por precio del carburante, ascendente o descendente.
+function ordenarPorPrecio(gasolineras, orden) {
+  gasolineras.sort(function (a, b) {
+    let precioA = parseFloat(a.gasolinera.PrecioProducto.replace(",", ""));
+    let precioB = parseFloat(b.gasolinera.PrecioProducto.replace(",", ""));
+    if (orden === "descendente") {
+      return precioB - precioA;
+    } else {
+      return precioA - precioB;
+    }
+  });
+  return gasolineras;
+}
+
+// ordenar por distancia con unas coordenadas de referencia de referencia
+function ordenarPorDistancia(gasolineras, latRef, lonRef, orden) {
   // Agregar distancia a cada coordenada
   const gasolinerasConDistancia = gasolineras.map((gasolinera) => {
     let lat = parseFloat(gasolinera.Latitud.replace(",", "."));
@@ -125,8 +284,8 @@ function ordenarPorDistancia(gasolineras, latRef, lonRef) {
     return { gasolinera, distancia };
   });
 
-  // Ordenar coordenadas por distancia ascendente
-  gasolinerasConDistancia.sort((a, b) => a.distancia - b.distancia);
+  // Ordenar coordenadas por distancia ascendente o descendente, dependiendo del parámetro "orden"
+  gasolinerasConDistancia.sort((a, b) => (orden === "ascendente" ? a.distancia - b.distancia : b.distancia - a.distancia));
 
   return gasolinerasConDistancia;
 }
@@ -150,9 +309,8 @@ function toRad(grados) {
   return grados * Math.PI / 180;
 }
 
-
 // pintar una gasolinera
-function mostrarGasolinera(gasolinera, nombreCarburante) {
+function mostrarGasolinera(gasolinera, distanciaF, nombreCarburante) {
 
   let divGasolinera = document.createElement("div");
   divGasolinera.classList.add("gasolinera");
@@ -161,7 +319,7 @@ function mostrarGasolinera(gasolinera, nombreCarburante) {
   divFoto.classList.add("divFoto");
   divGasolinera.appendChild(divFoto);
 
-  let nombreLogo = obtenerLogoGas(gasolinera.gasolinera.Rótulo);
+  let nombreLogo = obtenerLogoGas(gasolinera.Rótulo);
 
   let logo = document.createElement("img");
   logo.classList.add("logo");
@@ -173,24 +331,24 @@ function mostrarGasolinera(gasolinera, nombreCarburante) {
   divContenidoGas.classList.add("divContenidoGas");
 
   let pDireccion = document.createElement("p");
-  pDireccion.innerHTML = "<b>" + gasolinera.gasolinera.Dirección + "</b>";
+  pDireccion.innerHTML = "<b>" + gasolinera.Dirección + "</b>";
   divContenidoGas.appendChild(pDireccion);
 
   let pPrecioProducto = document.createElement("p");
   pPrecioProducto.classList.add("pPrecioProducto");
-  pPrecioProducto.innerHTML = nombreCarburante + ": " + gasolinera.gasolinera.PrecioProducto + "€";
+  pPrecioProducto.innerHTML = nombreCarburante + ": " + gasolinera.PrecioProducto + "€";
   divContenidoGas.appendChild(pPrecioProducto);
 
   let distancia = document.createElement("p");
   distancia.id = "distanciaGas";
-  distancia.innerHTML = gasolinera.distancia.toFixed(2) + " km";
+  distancia.innerHTML = distanciaF.toFixed(2) + " km";
   divContenidoGas.appendChild(distancia);
 
   divGasolinera.appendChild(divContenidoGas);
   divGasolineras.appendChild(divGasolinera);
 }
 
-// funcion para
+// funcion para saber que foto poner al mostar la gasolinera dependiendo de la empresa
 function obtenerLogoGas(nombre) {
   let nombreEnMinusculas = nombre.toLowerCase();
   let nombreFoto;
@@ -212,13 +370,33 @@ function obtenerLogoGas(nombre) {
   return nombreFoto;
 }
 
-// función para cuando un filtro no obtenga resultados.
-function noHayResultados() {
-  console.log("No hay resultados");
+// funcion para eliminar todas las gasolineras pintadas
+function eliminarGasolinerasYMapa() {
+  divGasolineras.innerHTML = "";
+  divMapa.innerHTML = "";
 }
 
+// función para cuando un filtro no obtenga resultados.
+function noHayResultados() {
+  eliminarGasolinerasYMapa();
+
+  let carta = document.createElement("div");
+  carta.classList.add("divError");
+  let titulo = document.createElement("h2");
+  titulo.innerText = "¡Oops! No existen resultados.";
+  carta.appendChild(titulo);
+
+  let contenedorIMG = document.createElement("img");
+
+  contenedorIMG.classList.add("imgPersonalizada")
+  let imgPersonalizada = "img/singasolina.jpg";
+
+  contenedorIMG.setAttribute("src", imgPersonalizada);
+  carta.appendChild(contenedorIMG);
+  divGasolineras.appendChild(carta);
 
 
+}
 
 //'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
 //Mapa
@@ -278,6 +456,12 @@ map.addEventListener('tap', function (evt) {
 
 
 
+let marker = new H.map.Marker({
+  lat: latGas,
+  lng: longGas
+});
+
+map.addObject(marker);
 
 
 // Cuando el usuario se desplaza hacia abajo 80 px desde la parte superior del documento, cambie el tamaño del relleno de la barra de navegación y el tamaño de fuente del logotipo
@@ -286,11 +470,14 @@ window.onscroll = function () {
 };
 
 function scrollFunction() {
-  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-    document.getElementById("navbar").style.padding = "30px 10px";
-    document.getElementById("logo").style.fontSize = "25px";
-  } else {
-    document.getElementById("navbar").style.padding = "10px 5px";
-    document.getElementById("logo").style.fontSize = "45px";
-  }
+
+  document.getElementById("navbar").style.padding = "10px 5px";
+  document.getElementById("logo").style.fontSize = "45px";
+  document.getElementById("cajaBuscador").style.padding = "0 40% 0 20%";
+
 }
+
+
+// llamada de funciones al iniciar la aplicacion
+gasolinerasInicio();
+llenarSelectorCarburante();

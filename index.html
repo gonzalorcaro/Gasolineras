@@ -28,11 +28,11 @@
     </div>
 
     <div id="navbar">
-      <a href="#default" id="logo">Gas-Eco</a>
+      <a href="." id="logo">Gas-Eco</a>
       <img src="./img/gas.png" class="nav-brand" alt="">
 
       <div id="navbar-right">
-        <a class="active" href="#home">Home</a>
+        <a class="active" href=".">Home</a>
         <a href="#contact">Contact</a>
         <a href="#about">About</a>
       </div>
@@ -40,10 +40,10 @@
         <div class="container">
           <div class="row">
             <div class="six-columns">
-              <div class="contenido-hero">
+              <div class="contenido-hero" id="cajaBuscador">               
                 <form>
-                  <input class="u-full-width" type="text" id="buscador">
-                  <input type="submit" class="submit-buscador">
+                  <input class="u-full-width" type="text" id="buscador" placeholder="Municipio">
+                  <button type="button" class="submit-buscador"  onclick="aplicarFiltrosGasolineras()">
                 </form>
               </div>
 

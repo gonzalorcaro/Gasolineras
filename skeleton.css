@@ -299,10 +299,6 @@ h6 {
   }
 }
 
-p {
-  margin-top: 0;
-}
-
 
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -547,7 +543,6 @@ blockquote,
 dl,
 figure,
 table,
-p,
 ul,
 ol,
 form {
