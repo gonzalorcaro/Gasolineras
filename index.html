@@ -27,11 +27,11 @@
     </div>
 
     <div id="navbar">
-      <a href="#default" id="logo">Gas-Eco</a>
+      <a href="." id="logo">Gas-Eco</a>
       <img src="./img/gas.png" class="nav-brand" alt="">
 
       <div id="navbar-right">
-        <a class="active" href="#home">Home</a>
+        <a class="active" href=".">Home</a>
         <a href="#contact">Contact</a>
         <a href="#about">About</a>
       </div>
@@ -39,10 +39,10 @@
         <div class="container">
           <div class="row">
             <div class="six-columns">
-              <div class="contenido-hero">
+              <div class="contenido-hero" id="cajaBuscador">               
                 <form>
-                  <input class="u-full-width" type="text" id="buscador">
-                  <input type="submit" class="submit-buscador" onclick="buscarGasolinera()">
+                  <input class="u-full-width" type="text" id="buscador" placeholder="Municipio">
+                  <button type="button" class="submit-buscador"  onclick="aplicarFiltrosGasolineras()">
                 </form>
               </div>
 
@@ -58,24 +58,21 @@
   <div id="content">
     <aside id="menu">
       <h5>Filtrar el contenido por :</h5>
-      <label for="carburante">Tipo de Carburante</label>
-      <select id="tipoCarburante" name="carburante">
-        <option value=""></option>
-        <option value=""></option>
-        <br>
+      <p>Obtener ubicación actual: &nbsp<button type="button" id="btn-ubi" onclick="obtenerLocalizacionActual()">Pulse aquí</button></p>
+      <p>Tipo de carburante:</p>
+      <select id="tipoCarburante" onchange="aplicarFiltrosGasolineras()">
       </select>
-      <label for="distancia">Distancia</label>
-      <select id="distancia" name="distancia">
-        <option value="">Ascendente</option>
-        <option value="">Descendente</option>
-        <option value="">Sin relevancia</option>
+      <p>Ordenar por distancia:</p>
+      <select id="distancia" onchange="conflictoSelectores(event); aplicarFiltrosGasolineras()">
+        <option value="relevancia">Por relevancia</option>
+        <option value="ascendente">Ascendente</option>
+        <option value="descendente">Descendente</option>
       </select>
-      <br>
-      <label for="precio">Precio</label>
-      <select id="precio" name="precio">
-        <option value="">Ascendente</option>
-        <option value="">Descendente</option>
-        <option value="">Sin relevancia</option>
+      <p>Ordenar por precio:</p>
+      <select id="precio" onchange="conflictoSelectores(event), aplicarFiltrosGasolineras()">
+        <option value="relevancia">Por relevancia</option>
+        <option value="ascendente">Ascendente</option>
+        <option value="descendente">Descendente</option>
       </select>
     </aside>
     <div id="gasolineras">
@@ -120,7 +117,7 @@
     <ul>
       <li>
         <a href="#">
-          <h3>TITTLE ONE</h3>
+          <h3>Blockchains</h3>
         </a>
       </li>
       <LI>
@@ -139,7 +136,66 @@
         <a href="#">Blockchains</a>
       </LI>
       <LI>
-        <a href="#"></a>
-    </div>
+        <a href="#">Blockchains</a>
+      </LI>
+
+      </LI>
+    </ul>
+    <ul>
+      <li>
+        <a href="#">
+          <h3>Blockchains</h3>
+        </a>
+      </li>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+
+      </LI>
+    </ul>
+    <ul>
+      <li>
+        <a href="#">
+          <h3>Blockchains</h3>
+        </a>
+      </li>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+      <LI>
+        <a href="#">Blockchains</a>
+      </LI>
+
+      </LI>
+    </ul>
   </div>
+</div>
+
 </html>
