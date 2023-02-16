@@ -8,7 +8,7 @@ let buscador = document.getElementById("buscador");
 
 // funcion que se ejecuta al iniciar la aplicación
 async function gasolinerasInicio() {
-
+  
   let ip = await obtenerIP();
   let coordenadas = await coordenadasDesdeIP(ip);
   let ciudad = await ciudadConCoordenadas(
@@ -23,7 +23,7 @@ async function gasolinerasInicio() {
 
   crearMapa(coordenadas.latitud, coordenadas.longitud);
 
-  datosGasolinerasOrdenados.sort(function (a, b) {
+  datosGasolinerasOrdenados.sort(function(a, b) {
     return Math.random() - 0.5;
   });
 
@@ -33,7 +33,7 @@ async function gasolinerasInicio() {
     let lon = parseFloat(gasolinera.gasolinera["Longitud (WGS84)"].replace(",", "."));
     addMarcadorMapa(lat, lon, coordenadas.latitud, coordenadas.longitud);
   });
-
+  
 }
 
 // funcion que muestra las gasolineras con los filtros aplicados
@@ -50,15 +50,15 @@ async function aplicarFiltrosGasolineras() {
     let ip = await obtenerIP();
     coordenadas = await coordenadasDesdeIP(ip);
     let ciudad = await ciudadConCoordenadas(
-      coordenadas.latitud,
-      coordenadas.longitud
+    coordenadas.latitud,
+    coordenadas.longitud
     );
-    idMunicipio = await obtenerIdMunicipio(ciudad);
+     idMunicipio = await obtenerIdMunicipio(ciudad);
   } else {
     let ciudad = buscador.value;
     idMunicipio = await obtenerIdMunicipio(ciudad);
     if (idMunicipio !== undefined) {
-      coordenadas = await obtenerCoordenadas(ciudad);
+    coordenadas = await obtenerCoordenadas(ciudad);
     }
   }
 
@@ -72,10 +72,10 @@ async function aplicarFiltrosGasolineras() {
       switch (selectorDistancia.value) {
         case "ascendente":
           datosGasolineras = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud, "ascendente");
-          break;
+        break;
         case "descendente":
           datosGasolineras = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud, "descendente");
-          break;
+        break;
       }
 
     } else if (selectorDistancia.value == "relevancia" && selectorPrecio.value != "relevancia") {
@@ -84,35 +84,35 @@ async function aplicarFiltrosGasolineras() {
 
       switch (selectorPrecio.value) {
         case "ascendente":
-          datosGasolineras = ordenarPorPrecio(datosGasolineras, "ascendente");
-          break;
+          datosGasolineras = ordenarPorPrecio(datosGasolineras, "ascendente"); 
+        break;
         case "descendente":
-          datosGasolineras = ordenarPorPrecio(datosGasolineras, "descendente");
-          break;
+          datosGasolineras = ordenarPorPrecio(datosGasolineras, "descendente"); 
+        break;
       }
     } else if (selectorDistancia.value == "relevancia") {
       datosGasolineras = ordenarPorDistancia(datosGasolineras.ListaEESSPrecio, coordenadas.latitud, coordenadas.longitud, "ascendente");
 
-      datosGasolineras.sort(function (a, b) {
+      datosGasolineras.sort(function(a, b) {
         return Math.random() - 0.5;
       });
     }
-
+    
     eliminarGasolinerasYMapa();
 
     if (datosGasolineras.length !== 0) {
-      crearMapa(coordenadas.latitud, coordenadas.longitud);
+    crearMapa(coordenadas.latitud, coordenadas.longitud);
 
-      datosGasolineras.forEach((gasolinera) => {
-        mostrarGasolinera(gasolinera.gasolinera, gasolinera.distancia, selectorCarburante.options[selectorCarburante.selectedIndex].textContent);
-        let lat = parseFloat(gasolinera.gasolinera.Latitud.replace(",", "."));
-        let lon = parseFloat(gasolinera.gasolinera["Longitud (WGS84)"].replace(",", "."));
-        addMarcadorMapa(lat, lon, coordenadas.latitud, coordenadas.longitud);
-      });
+    datosGasolineras.forEach((gasolinera) => {
+      mostrarGasolinera(gasolinera.gasolinera, gasolinera.distancia, selectorCarburante.options[selectorCarburante.selectedIndex].textContent);
+      let lat = parseFloat(gasolinera.gasolinera.Latitud.replace(",", "."));
+      let lon = parseFloat(gasolinera.gasolinera["Longitud (WGS84)"].replace(",", "."));
+      addMarcadorMapa(lat, lon, coordenadas.latitud, coordenadas.longitud);
+    });
 
-    } else {
-      noHayResultados();
-    }
+  } else {
+    noHayResultados();
+  }
 
   } else {
     noHayResultados();
@@ -132,7 +132,7 @@ async function llenarSelectorCarburante() {
     let option = document.createElement("option");
     option.text = carburante.NombreProducto;
 
-    if (carburante.IDProducto == 4) {
+    if(carburante.IDProducto == 4) {
       option.selected = true;
     }
 
@@ -145,16 +145,16 @@ async function llenarSelectorCarburante() {
 function conflictoSelectores(event) {
   let selectorDistancia = document.getElementById("distancia");
   let selectorPrecio = document.getElementById("precio");
-
+  
   let idSelect = event.target.id;
-
+  
   switch (idSelect) {
     case "distancia":
-      selectorPrecio.value = "relevancia";
-      break;
+      selectorPrecio.value = "relevancia"; 
+    break;
     case "precio":
-      selectorDistancia.value = "relevancia";
-      break;
+      selectorDistancia.value = "relevancia"; 
+    break;
   }
 }
 
@@ -203,9 +203,9 @@ async function obtenerCoordenadas(ciudad) {
       const lat = data[0].lat;
       const lon = data[0].lon;
 
-      return {
+      return { 
         latitud: lat,
-        longitud: lon
+        longitud: lon 
       };
     });
 }
@@ -240,7 +240,6 @@ async function obtenerIdMunicipio(nombreMunicipio) {
 }
 
 
-
 // funcion para obtener las gasolineras de un municipio.
 async function gasolineasPorMunicipio(idMunicipio) {
   let response;
@@ -264,7 +263,7 @@ async function gasolineasPorProductoYMunicipio(idMunicipio, idProducto) {
 
 // ordenar por precio del carburante, ascendente o descendente.
 function ordenarPorPrecio(gasolineras, orden) {
-  gasolineras.sort(function (a, b) {
+  gasolineras.sort(function(a, b) {
     let precioA = parseFloat(a.gasolinera.PrecioProducto.replace(",", ""));
     let precioB = parseFloat(b.gasolinera.PrecioProducto.replace(",", ""));
     if (orden === "descendente") {
@@ -395,26 +394,28 @@ function noHayResultados() {
 
   contenedorIMG.setAttribute("src", imgPersonalizada);
   carta.appendChild(contenedorIMG);
-  divGasolineras.appendChild(carta);
+divGasolineras.appendChild(carta);
 
 
 }
 
 //'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
 //Mapa
-
+//funcion que crea el mapa
 let map;
-let behavior;
-let mapEvents;
+
 
 function crearMapa(latRef, longRef) {
-  var platform = new H.service.Platform({
-    'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
-  });
 
-  var defaultLayers = platform.createDefaultLayers();
+      // Crea una instancia del servicio de plataforma HERE Maps:
+    var platform = new H.service.Platform({
+      'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
+    });
 
-  map = new H.Map(
+    // Obtiene los tipos de mapa predeterminados de la plataforma:
+    var defaultLayers = platform.createDefaultLayers();
+
+    map = new H.Map(
     document.getElementById('map'),
     defaultLayers.vector.normal.map,
     {
@@ -423,47 +424,31 @@ function crearMapa(latRef, longRef) {
       draggable: true
     });
 
-  mapEvents = new H.mapevents.MapEvents(map);
-  behavior = new H.mapevents.Behavior(mapEvents);
+    
+    
 
-  var ui = H.ui.UI.createDefault(map, defaultLayers);
-  var searchService = platform.getSearchService();
+    // Crea la interfaz de usuario predeterminada:
+    var ui = H.ui.UI.createDefault(map, defaultLayers);
 
-  console.log("crearMapa finn");
+    // Crea una instancia del servicio de búsqueda:
+    var searchService = platform.getSearchService();
+
 }
 
+// Crea una marca en el mapa en las coordenadas específicas
 function addMarcadorMapa(latGas, longGas) {
+
   // Create a marker icon from an image URL:
   var icon = new H.map.Icon('img/icongas2.png', { size: { w: 25, h: 25 } });
 
-  // Create a marker using the previously instantiated icon:
-  var marker = new H.map.Marker({ lat: latGas, lng: longGas }, { icon: icon });
+  let marker = new H.map.Marker({
+    lat: latGas,
+    lng: longGas},
+    { icon: icon }
+    );
 
-  // Add the marker to the map:
   map.addObject(marker);
 }
-
-map.addEventListener('tap', function (evt) {
-  console.log(evt.type, evt.currentPointer.type);
-});
-
-
-
-
-
-// Agrega la marca al mapa
-
-
-
-
-
-
-let marker = new H.map.Marker({
-  lat: latGas,
-  lng: longGas
-});
-
-map.addObject(marker);
 
 
 // Cuando el usuario se desplaza hacia abajo 80 px desde la parte superior del documento, cambie el tamaño del relleno de la barra de navegación y el tamaño de fuente del logotipo
@@ -473,10 +458,10 @@ window.onscroll = function () {
 
 function scrollFunction() {
 
-  document.getElementById("navbar").style.padding = "10px 5px";
-  document.getElementById("logo").style.fontSize = "45px";
-  document.getElementById("cajaBuscador").style.padding = "0 40% 0 20%";
-
+    document.getElementById("navbar").style.padding = "10px 5px";
+    document.getElementById("logo").style.fontSize = "45px";
+    document.getElementById("cajaBuscador").style.padding = "0 40% 0 20%";
+  
 }
 
 

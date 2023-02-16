@@ -7,15 +7,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#myVideo {
-  z-index: -1;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-}
-
 /**Estilos navbar**/
 #navbar {
   overflow: hidden;
@@ -144,8 +135,7 @@ body {
 }
 
 .gasolinera {
-  background-color: white;
-  border: 2px solid orangered;
+  border: solid black;
   width: 500px;
   display: flex;
   flex-direction: row;
@@ -169,14 +159,13 @@ body {
 }
 
 #map {
-  border: solid 2px orangered;
   width: 350px;
   height: 350px;
 }
 
 @media screen and (max-width: 580px) {
   #map {
-    height: 100%;
+    height: 60%;
     width: 100%;
   }
 }
@@ -227,7 +216,6 @@ body {
 
 /**Estilo Menu/Aside**/
 #menu {
-  background-color: white;
   padding-bottom: 7%;
   padding-left: 5px;
   padding-top: 5px;
@@ -235,7 +223,7 @@ body {
   height: 100%;
   width: 20%;
   color: #ff6f00;
-
+ 
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -251,10 +239,10 @@ body {
 
 #btn-ubi:hover {
   transform: rotate(5deg) scale(1);
-  background: -webkit-linear-gradient(left,
-      #ffc800 0%,
-      #ff6f00 50%,
-      #ffc46b 100%);
+  background:  -webkit-linear-gradient(left,
+  #ffc800 0%,
+  #ff6f00 50%,
+  #ffc46b 100%);
   color: white;
 }
 
@@ -285,40 +273,11 @@ body {
   place-content: center space-evenly;
 }
 
-<<<<<<< HEAD <<<<<<< Updated upstream #distanciaGas {
-  =======#distanciaGas {
-    >>>>>>>a6b6f98f2e9fb7c836ca950a2b324d0d04d50d99 color: rgb(249, 95, 0);
-  }
+#distanciaGas {
+  color: rgb(249, 95, 0);
+}
 
-  .pPrecioProducto {
-    color: #ff0000;
-  }
+.pPrecioProducto {
+  color: #ff0000;
+}
 
-  <<<<<<< HEAD=======<<<<<<< Updated upstream=======>>>>>>>Stashed changes
-
-  /*Buscador*/
-  #buscarGasolinera {
-    color: rgb(249, 95, 0);
-    border: 2px solid rgb(249, 95, 0);
-  }
-
-  /*Quita el borde azul del input al pulsar*/
-  input:focus {
-    outline: none;
-
-  }
-
-  #btn-buscar {
-    height: 25px;
-    width: 27px;
-    background-image: url(img/lupaa.png);
-  }
-
-  #buscador {
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-
-  }
-
-  <<<<<<< Updated upstream=======>>>>>>>Stashed changes>>>>>>>Stashed changes=======>>>>>>>a6b6f98f2e9fb7c836ca950a2b324d0d04d50d99
