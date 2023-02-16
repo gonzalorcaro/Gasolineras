@@ -239,6 +239,8 @@ async function obtenerIdMunicipio(nombreMunicipio) {
   }
 }
 
+
+
 // funcion para obtener las gasolineras de un municipio.
 async function gasolineasPorMunicipio(idMunicipio) {
   let response;
