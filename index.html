@@ -39,7 +39,7 @@
         <div class="container">
           <div class="row">
             <div class="six-columns">
-              <div class="contenido-hero">               
+              <div class="contenido-hero" id="cajaBuscador">               
                 <form>
                   <input class="u-full-width" type="text" id="buscador" placeholder="Municipio">
                   <button type="button" class="submit-buscador"  onclick="aplicarFiltrosGasolineras()">
@@ -58,7 +58,7 @@
   <div id="content">
     <aside id="menu">
       <h5>Filtrar el contenido por :</h5>
-      <p>Obtener ubicación actual:<button type="button" onclick="obtenerLocalizacionActual()">Pulse aquí</button></p>
+      <p>Obtener ubicación actual: &nbsp<button type="button" id="btn-ubi" onclick="obtenerLocalizacionActual()">Pulse aquí</button></p>
       <p>Tipo de carburante:</p>
       <select id="tipoCarburante" onchange="aplicarFiltrosGasolineras()">
       </select>
@@ -136,9 +136,6 @@
         <a href="#">Blockchains</a>
       </LI>
       <LI>
-<<<<<<< Updated upstream
-        <a href="#"></a>
-=======
         <a href="#">Blockchains</a>
       </LI>
 
@@ -198,7 +195,6 @@
 
       </LI>
     </ul>
->>>>>>> Stashed changes
   </div>
 </div>
 

@@ -382,7 +382,22 @@ function eliminarGasolinerasYMapa() {
 function noHayResultados() {
   eliminarGasolinerasYMapa();
 
-  divGasolineras.innerHTML = "<h2>No existen resultados para su búsqueda</h2>"
+  let carta = document.createElement("div");
+  carta.classList.add("divError");
+  let titulo = document.createElement("h2");
+  titulo.innerText = "¡Oops! No existen resultados.";
+  carta.appendChild(titulo);
+
+  let contenedorIMG = document.createElement("img");
+
+  contenedorIMG.classList.add("imgPersonalizada")
+  let imgPersonalizada = "img/singasolina.jpg";
+
+  contenedorIMG.setAttribute("src", imgPersonalizada);
+  carta.appendChild(contenedorIMG);
+divGasolineras.appendChild(carta);
+
+
 }
 
 //'apikey': 'ucstkoCXcmlx8N1_6KdtT2akr6IoR7ja57jFoU0Fgro'
@@ -432,13 +447,11 @@ window.onscroll = function () {
 };
 
 function scrollFunction() {
-  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-    document.getElementById("navbar").style.padding = "30px 10px";
-    document.getElementById("logo").style.fontSize = "25px";
-  } else {
+
     document.getElementById("navbar").style.padding = "10px 5px";
     document.getElementById("logo").style.fontSize = "45px";
-  }
+    document.getElementById("cajaBuscador").style.padding = "0 40% 0 20%";
+  
 }
 
 
