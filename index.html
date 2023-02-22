@@ -8,11 +8,13 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="normalize.css">
   <link rel="stylesheet" href="skeleton.css">
+  <link rel="stylesheet" type="text/css" href=" https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+
 
   <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
-  <link rel="stylesheet" type="text/css" href=" https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
   <script src="script.js" defer></script>
 
   <title>Gasolineras</title>
@@ -39,10 +41,10 @@
         <div class="container">
           <div class="row">
             <div class="six-columns">
-              <div class="contenido-hero" id="cajaBuscador">               
+              <div class="contenido-hero" id="cajaBuscador">
                 <form>
                   <input class="u-full-width" type="text" id="buscador" placeholder="Municipio">
-                  <button type="button" class="submit-buscador"  onclick="aplicarFiltrosGasolineras()">
+                  <button type="button" class="submit-buscador" onclick="aplicarFiltrosGasolineras()">
                 </form>
               </div>
 
@@ -55,31 +57,34 @@
       </div>
     </div>
   </header>
-  <div id="content">
-    <aside id="menu">
-      <h5>Filtrar el contenido por :</h5>
-      <p>Obtener ubicación actual: &nbsp<button type="button" id="btn-ubi" onclick="obtenerLocalizacionActual()">Pulse aquí</button></p>
-      <p>Tipo de carburante:</p>
-      <select id="tipoCarburante" onchange="aplicarFiltrosGasolineras()">
-      </select>
-      <p>Ordenar por distancia:</p>
-      <select id="distancia" onchange="conflictoSelectores(event); aplicarFiltrosGasolineras()">
-        <option value="relevancia">Por relevancia</option>
-        <option value="ascendente">Ascendente</option>
-        <option value="descendente">Descendente</option>
-      </select>
-      <p>Ordenar por precio:</p>
-      <select id="precio" onchange="conflictoSelectores(event), aplicarFiltrosGasolineras()">
-        <option value="relevancia">Por relevancia</option>
-        <option value="ascendente">Ascendente</option>
-        <option value="descendente">Descendente</option>
-      </select>
-    </aside>
-    <div id="gasolineras">
+  <div class="container-background">
+    <div id="content">
+      <aside id="menu">
+        <h5>Filtrar el contenido por :</h5>
+        <p>Obtener ubicación actual: &nbsp<button type="button" id="btn-ubi" onclick="obtenerLocalizacionActual()">Pulse
+            aquí</button></p>
+        <p>Tipo de carburante:</p>
+        <select id="tipoCarburante" onchange="aplicarFiltrosGasolineras()">
+        </select>
+        <p>Ordenar por distancia:</p>
+        <select id="distancia" onchange="conflictoSelectores(event); aplicarFiltrosGasolineras()">
+          <option value="relevancia">Por relevancia</option>
+          <option value="ascendente">Ascendente</option>
+          <option value="descendente">Descendente</option>
+        </select>
+        <p>Ordenar por precio:</p>
+        <select id="precio" onchange="conflictoSelectores(event), aplicarFiltrosGasolineras()">
+          <option value="relevancia">Por relevancia</option>
+          <option value="ascendente">Ascendente</option>
+          <option value="descendente">Descendente</option>
+        </select>
+      </aside>
+      <div id="gasolineras">
 
-    </div>
-    <div id="containerMap">
-      <div id="map">
+      </div>
+      <div id="containerMap">
+        <div id="map">
+        </div>
       </div>
     </div>
   </div>
